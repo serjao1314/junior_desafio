@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>BreastMNIST Evaluation</title>
+</head>
+<body>
+  <h1>Upload de Imagem para Avaliação</h1>
+  <form id="uploadForm">
+    <input type="file" id="fileInput" name="file" />
+    <button type="submit">Enviar</button>
+  </form>
+  <p id="result"></p>
+
+  <script>
+    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append("file", document.getElementById("fileInput").files[0]);
+
+      const res = await fetch("http://localhost:5000/predict", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      document.getElementById("result").innerText = "Resultado: " + data.prediction;
+    });
+  </script>
+</body>
+</html>
