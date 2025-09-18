@@ -12,7 +12,7 @@ from medmnist import BreastMNIST
 
 # Transformações nas imagens
 transform = transforms.Compose([
-    transforms.ToTensor(),              #converte a imagem em 
+    transforms.ToTensor(),              #converte a imagem em matriz
     transforms.Resize((28,28)),
     transforms.Normalize([0.5], [0.5])
 ])
@@ -69,3 +69,4 @@ with torch.no_grad():
 
 accuracy = 100 * correct / total
 print(f"Acurácia no dataset de teste: {accuracy:.2f}%")
+
