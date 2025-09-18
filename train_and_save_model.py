@@ -12,7 +12,7 @@ from medmnist import BreastMNIST
 
 # Transformações nas imagens
 transform = transforms.Compose([
-    transforms.ToTensor(),
+    transforms.ToTensor(),              #converte a imagem em 
     transforms.Resize((28,28)),
     transforms.Normalize([0.5], [0.5])
 ])
@@ -38,7 +38,7 @@ criterion = nn.CrossEntropyLoss()
 opt = optim.Adam(model.parameters(), lr=1e-3)
 
 # Treino rápido (3 épocas só para exemplo)
-for epoch in range(3):
+for epoch in range(50):
     model.train()
     running = 0
     for imgs, labels in train_loader:
@@ -53,3 +53,19 @@ for epoch in range(3):
 # Guardar modelo treinado
 torch.save(model.state_dict(), "breast_model.pth")
 print("Modelo salvo em breast_model.pth")
+
+
+#accuracy
+test_ds = BreastMNIST(split="test", transform=transform, download=True)
+test_loader = DataLoader(test_ds, batch_size=64, shuffle=False)
+correct, total = 0, 0
+model.eval()
+with torch.no_grad():
+    for imgs, labels in test_loader:
+        outputs = model(imgs)
+        _, predicted = torch.max(outputs, 1)
+        total += labels.size(0)
+        correct += (predicted == labels.squeeze()).sum().item()
+
+accuracy = 100 * correct / total
+print(f"Acurácia no dataset de teste: {accuracy:.2f}%")
