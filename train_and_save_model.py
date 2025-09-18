@@ -68,5 +68,6 @@ with torch.no_grad():
         correct += (predicted == labels.squeeze()).sum().item()
 
 accuracy = 100 * correct / total
-print(f"Acurácia no dataset de teste: {accuracy:.2f}%")
+print(f"Accuracy no dataset de teste: {accuracy:.2f}%")
+
 
